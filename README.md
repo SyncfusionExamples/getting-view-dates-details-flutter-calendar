@@ -1,6 +1,5 @@
 # How to get visible dates details from the Flutter event calendar (SfCalendar)?
 
-
 In flutter event calendar, you can get the details of visible dates using the `onViewChanged` callback of the flutter calendar widget.
 
 ## Step 1
