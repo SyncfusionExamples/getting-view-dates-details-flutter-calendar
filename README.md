@@ -67,5 +67,5 @@ void viewChanged(ViewChangedDetails viewChangedDetails) {
 **[View document in Syncfusion Flutter Knowledge base](https://www.syncfusion.com/kb/11026/how-to-get-visible-dates-details-from-the-flutter-event-calendar-sfcalendar)**
 
 **Screenshot**
+<img alt="visible dates" src="http://www.syncfusion.com/uploads/user/kb/flut/flut-710/flut-710_img1.jpeg" width="250" height="500" />
 
-![visible dates](http://www.syncfusion.com/uploads/user/kb/flut/flut-710/flut-710_img1.jpeg)
