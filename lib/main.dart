@@ -29,20 +29,9 @@ List<String> colors = <String>[
   'Default'
 ];
 
-List<String> views = <String>[
-  'Day',
-  'Week',
-  'WorkWeek',
-  'Month',
-  'Timeline Day',
-  'Timeline Week',
-  'Timeline WorkWeek'
-];
-
 class ScheduleExample extends State<VisibleDates> {
-CalendarController _controller=CalendarController();
-  String? _startDate,
-      _endDate;
+  CalendarController _controller = CalendarController();
+  String? _startDate, _endDate;
   Color? headerColor, viewHeaderColor, calendarColor, defaultColor;
 
   @override
@@ -99,47 +88,30 @@ CalendarController _controller=CalendarController();
           backgroundColor: headerColor,
           centerTitle: true,
           titleSpacing: 60,
-          leading: PopupMenuButton<String>(
-            icon: Icon(Icons.calendar_today),
-            itemBuilder: (BuildContext context) => views.map((String choice) {
-              return PopupMenuItem<String>(
-                value: choice,
-                child: Text(choice),
-              );
-            }).toList(),
-            onSelected: (String value) {
-              setState(() {
-                if (value == 'Day') {
-                  _controller.view = CalendarView.day;
-                } else if (value == 'Week') {
-                  _controller.view = CalendarView.week;
-                } else if (value == 'WorkWeek') {
-                  _controller.view = CalendarView.workWeek;
-                } else if (value == 'Month') {
-                  _controller.view = CalendarView.month;
-                } else if (value == 'Timeline Day') {
-                  _controller.view = CalendarView.timelineDay;
-                } else if (value == 'Timeline Week') {
-                  _controller.view = CalendarView.timelineWeek;
-                } else if (value == 'Timeline WorkWeek') {
-                  _controller.view = CalendarView.timelineWorkWeek;
-                }
-              });
-            },
-          ),
         ),
         body: Column(
           children: <Widget>[
-            Container(height: 50,
-              child: Text('StartDate : ''$_startDate'),
+            Container(
+              height: 50,
+              child: Text('StartDate : ' '$_startDate'),
             ),
-            Container(height: 50,
-              child: Text('EndDate : ''$_endDate'),
+            Container(
+              height: 50,
+              child: Text('EndDate : ' '$_endDate'),
             ),
             Expanded(
               child: SfCalendar(
                 viewHeaderStyle:
-                ViewHeaderStyle(backgroundColor: viewHeaderColor),
+                    ViewHeaderStyle(backgroundColor: viewHeaderColor),
+                allowedViews: [
+                  CalendarView.day,
+                  CalendarView.week,
+                  CalendarView.workWeek,
+                  CalendarView.month,
+                  CalendarView.timelineDay,
+                  CalendarView.timelineWeek,
+                  CalendarView.timelineWorkWeek
+                ],
                 backgroundColor: calendarColor,
                 view: CalendarView.week,
                 monthViewSettings: MonthViewSettings(showAgenda: true),
@@ -191,13 +163,12 @@ CalendarController _controller=CalendarController();
   }
 
   void viewChanged(ViewChangedDetails viewChangedDetails) {
-
     _startDate = DateFormat('dd, MMMM yyyy')
         .format(viewChangedDetails.visibleDates[0])
         .toString();
     _endDate = DateFormat('dd, MMMM yyyy')
         .format(viewChangedDetails
-        .visibleDates[viewChangedDetails.visibleDates.length - 1])
+            .visibleDates[viewChangedDetails.visibleDates.length - 1])
         .toString();
 
     SchedulerBinding.instance!.addPostFrameCallback((duration) {
