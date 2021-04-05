@@ -40,14 +40,13 @@ List<String> views = <String>[
 ];
 
 class ScheduleExample extends State<VisibleDates> {
-  CalendarView _calendarView;
-  String _startDate,
+CalendarController _controller=CalendarController();
+  String? _startDate,
       _endDate;
-  Color headerColor, viewHeaderColor, calendarColor, defaultColor;
+  Color? headerColor, viewHeaderColor, calendarColor, defaultColor;
 
   @override
   void initState() {
-    _calendarView = CalendarView.week;
     _startDate = '';
     _endDate = '';
     super.initState();
@@ -111,19 +110,19 @@ class ScheduleExample extends State<VisibleDates> {
             onSelected: (String value) {
               setState(() {
                 if (value == 'Day') {
-                  _calendarView = CalendarView.day;
+                  _controller.view = CalendarView.day;
                 } else if (value == 'Week') {
-                  _calendarView = CalendarView.week;
+                  _controller.view = CalendarView.week;
                 } else if (value == 'WorkWeek') {
-                  _calendarView = CalendarView.workWeek;
+                  _controller.view = CalendarView.workWeek;
                 } else if (value == 'Month') {
-                  _calendarView = CalendarView.month;
+                  _controller.view = CalendarView.month;
                 } else if (value == 'Timeline Day') {
-                  _calendarView = CalendarView.timelineDay;
+                  _controller.view = CalendarView.timelineDay;
                 } else if (value == 'Timeline Week') {
-                  _calendarView = CalendarView.timelineWeek;
+                  _controller.view = CalendarView.timelineWeek;
                 } else if (value == 'Timeline WorkWeek') {
-                  _calendarView = CalendarView.timelineWorkWeek;
+                  _controller.view = CalendarView.timelineWorkWeek;
                 }
               });
             },
@@ -140,9 +139,9 @@ class ScheduleExample extends State<VisibleDates> {
             Expanded(
               child: SfCalendar(
                 viewHeaderStyle:
-                    ViewHeaderStyle(backgroundColor: viewHeaderColor),
+                ViewHeaderStyle(backgroundColor: viewHeaderColor),
                 backgroundColor: calendarColor,
-                view: _calendarView,
+                view: CalendarView.week,
                 monthViewSettings: MonthViewSettings(showAgenda: true),
                 dataSource: getCalendarDataSource(),
                 onViewChanged: viewChanged,
@@ -193,15 +192,15 @@ class ScheduleExample extends State<VisibleDates> {
 
   void viewChanged(ViewChangedDetails viewChangedDetails) {
 
-        _startDate = DateFormat('dd, MMMM yyyy')
-            .format(viewChangedDetails.visibleDates[0])
-            .toString();
-        _endDate = DateFormat('dd, MMMM yyyy')
-            .format(viewChangedDetails
-            .visibleDates[viewChangedDetails.visibleDates.length - 1])
-            .toString();
+    _startDate = DateFormat('dd, MMMM yyyy')
+        .format(viewChangedDetails.visibleDates[0])
+        .toString();
+    _endDate = DateFormat('dd, MMMM yyyy')
+        .format(viewChangedDetails
+        .visibleDates[viewChangedDetails.visibleDates.length - 1])
+        .toString();
 
-    SchedulerBinding.instance.addPostFrameCallback((duration) {
+    SchedulerBinding.instance!.addPostFrameCallback((duration) {
       setState(() {});
     });
   }
