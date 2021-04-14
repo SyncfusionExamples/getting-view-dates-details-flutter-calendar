@@ -21,7 +21,7 @@ class VisibleDates extends StatefulWidget {
   State<StatefulWidget> createState() => ScheduleExample();
 }
 
-List<String> colors = <String>[
+List<String> _colors = <String>[
   'Pink',
   'Blue',
   'Wall Brown',
@@ -29,25 +29,12 @@ List<String> colors = <String>[
   'Default'
 ];
 
-List<String> views = <String>[
-  'Day',
-  'Week',
-  'WorkWeek',
-  'Month',
-  'Timeline Day',
-  'Timeline Week',
-  'Timeline WorkWeek'
-];
-
 class ScheduleExample extends State<VisibleDates> {
-  CalendarView _calendarView;
-  String _startDate,
-      _endDate;
-  Color headerColor, viewHeaderColor, calendarColor, defaultColor;
+  String? _startDate, _endDate;
+  Color? _headerColor, _viewHeaderColor, _calendarColor;
 
   @override
   void initState() {
-    _calendarView = CalendarView.week;
     _startDate = '';
     _endDate = '';
     super.initState();
@@ -63,7 +50,7 @@ class ScheduleExample extends State<VisibleDates> {
             PopupMenuButton<String>(
               icon: Icon(Icons.color_lens),
               itemBuilder: (BuildContext context) {
-                return colors.map((String choice) {
+                return _colors.map((String choice) {
                   return PopupMenuItem<String>(
                     value: choice,
                     child: Text(choice),
@@ -73,76 +60,59 @@ class ScheduleExample extends State<VisibleDates> {
               onSelected: (String value) {
                 setState(() {
                   if (value == 'Pink') {
-                    headerColor = const Color(0xFF09e8189);
-                    viewHeaderColor = const Color(0xFF0f3acb6);
-                    calendarColor = const Color(0xFF0ffe5d8);
+                    _headerColor = const Color(0xFF09e8189);
+                    _viewHeaderColor = const Color(0xFF0f3acb6);
+                    _calendarColor = const Color(0xFF0ffe5d8);
                   } else if (value == 'Blue') {
-                    headerColor = const Color(0xFF0007eff);
-                    viewHeaderColor = const Color(0xFF03aa4f6);
-                    calendarColor = const Color(0xFF0bae5ff);
+                    _headerColor = const Color(0xFF0007eff);
+                    _viewHeaderColor = const Color(0xFF03aa4f6);
+                    _calendarColor = const Color(0xFF0bae5ff);
                   } else if (value == 'Wall Brown') {
-                    headerColor = const Color(0xFF0937c5d);
-                    viewHeaderColor = const Color(0xFF0e6d9b1);
-                    calendarColor = const Color(0xFF0d1d2d6);
+                    _headerColor = const Color(0xFF0937c5d);
+                    _viewHeaderColor = const Color(0xFF0e6d9b1);
+                    _calendarColor = const Color(0xFF0d1d2d6);
                   } else if (value == 'Yellow') {
-                    headerColor = const Color(0xFF0f7ed53);
-                    viewHeaderColor = const Color(0xFF0fff77f);
-                    calendarColor = const Color(0xFF0f7f2cc);
+                    _headerColor = const Color(0xFF0f7ed53);
+                    _viewHeaderColor = const Color(0xFF0fff77f);
+                    _calendarColor = const Color(0xFF0f7f2cc);
                   } else if (value == 'Default') {
-                    headerColor = null;
-                    viewHeaderColor = null;
-                    calendarColor = null;
+                    _headerColor = null;
+                    _viewHeaderColor = null;
+                    _calendarColor = null;
                   }
                 });
               },
             ),
           ],
-          backgroundColor: headerColor,
+          backgroundColor: _headerColor,
           centerTitle: true,
           titleSpacing: 60,
-          leading: PopupMenuButton<String>(
-            icon: Icon(Icons.calendar_today),
-            itemBuilder: (BuildContext context) => views.map((String choice) {
-              return PopupMenuItem<String>(
-                value: choice,
-                child: Text(choice),
-              );
-            }).toList(),
-            onSelected: (String value) {
-              setState(() {
-                if (value == 'Day') {
-                  _calendarView = CalendarView.day;
-                } else if (value == 'Week') {
-                  _calendarView = CalendarView.week;
-                } else if (value == 'WorkWeek') {
-                  _calendarView = CalendarView.workWeek;
-                } else if (value == 'Month') {
-                  _calendarView = CalendarView.month;
-                } else if (value == 'Timeline Day') {
-                  _calendarView = CalendarView.timelineDay;
-                } else if (value == 'Timeline Week') {
-                  _calendarView = CalendarView.timelineWeek;
-                } else if (value == 'Timeline WorkWeek') {
-                  _calendarView = CalendarView.timelineWorkWeek;
-                }
-              });
-            },
-          ),
         ),
         body: Column(
           children: <Widget>[
-            Container(height: 50,
-              child: Text('StartDate : ''$_startDate'),
+            Container(
+              height: 50,
+              child: Text('StartDate : ' '$_startDate'),
             ),
-            Container(height: 50,
-              child: Text('EndDate : ''$_endDate'),
+            Container(
+              height: 50,
+              child: Text('EndDate : ' '$_endDate'),
             ),
             Expanded(
               child: SfCalendar(
                 viewHeaderStyle:
-                    ViewHeaderStyle(backgroundColor: viewHeaderColor),
-                backgroundColor: calendarColor,
-                view: _calendarView,
+                ViewHeaderStyle(backgroundColor: _viewHeaderColor),
+                allowedViews: [
+                  CalendarView.day,
+                  CalendarView.week,
+                  CalendarView.workWeek,
+                  CalendarView.month,
+                  CalendarView.timelineDay,
+                  CalendarView.timelineWeek,
+                  CalendarView.timelineWorkWeek
+                ],
+                backgroundColor: _calendarColor,
+                view: CalendarView.week,
                 monthViewSettings: MonthViewSettings(showAgenda: true),
                 dataSource: getCalendarDataSource(),
                 onViewChanged: viewChanged,
@@ -192,16 +162,15 @@ class ScheduleExample extends State<VisibleDates> {
   }
 
   void viewChanged(ViewChangedDetails viewChangedDetails) {
+    _startDate = DateFormat('dd, MMMM yyyy')
+        .format(viewChangedDetails.visibleDates[0])
+        .toString();
+    _endDate = DateFormat('dd, MMMM yyyy')
+        .format(viewChangedDetails
+        .visibleDates[viewChangedDetails.visibleDates.length - 1])
+        .toString();
 
-        _startDate = DateFormat('dd, MMMM yyyy')
-            .format(viewChangedDetails.visibleDates[0])
-            .toString();
-        _endDate = DateFormat('dd, MMMM yyyy')
-            .format(viewChangedDetails
-            .visibleDates[viewChangedDetails.visibleDates.length - 1])
-            .toString();
-
-    SchedulerBinding.instance.addPostFrameCallback((duration) {
+    SchedulerBinding.instance!.addPostFrameCallback((duration) {
       setState(() {});
     });
   }
