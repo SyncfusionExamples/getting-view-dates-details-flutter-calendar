@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-void main() => runApp(VisibleDatesDetails());
+void main() => runApp(const VisibleDatesDetails());
 
 class VisibleDatesDetails extends StatelessWidget {
+  const VisibleDatesDetails({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -48,7 +49,7 @@ class ScheduleExample extends State<VisibleDates> {
         appBar: AppBar(
           actions: <Widget>[
             PopupMenuButton<String>(
-              icon: Icon(Icons.color_lens),
+              icon: const Icon(Icons.color_lens),
               itemBuilder: (BuildContext context) {
                 return _colors.map((String choice) {
                   return PopupMenuItem<String>(
@@ -102,7 +103,7 @@ class ScheduleExample extends State<VisibleDates> {
               child: SfCalendar(
                 viewHeaderStyle:
                 ViewHeaderStyle(backgroundColor: _viewHeaderColor),
-                allowedViews: [
+                allowedViews: const [
                   CalendarView.day,
                   CalendarView.week,
                   CalendarView.workWeek,
@@ -113,7 +114,7 @@ class ScheduleExample extends State<VisibleDates> {
                 ],
                 backgroundColor: _calendarColor,
                 view: CalendarView.week,
-                monthViewSettings: MonthViewSettings(showAgenda: true),
+                monthViewSettings: const MonthViewSettings(showAgenda: true),
                 dataSource: getCalendarDataSource(),
                 onViewChanged: viewChanged,
               ),
@@ -170,7 +171,7 @@ class ScheduleExample extends State<VisibleDates> {
         .visibleDates[viewChangedDetails.visibleDates.length - 1])
         .toString();
 
-    SchedulerBinding.instance!.addPostFrameCallback((duration) {
+    SchedulerBinding.instance.addPostFrameCallback((duration) {
       setState(() {});
     });
   }
