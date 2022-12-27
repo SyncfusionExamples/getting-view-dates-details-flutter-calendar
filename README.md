@@ -6,6 +6,8 @@ You can get the details of visible dates in Flutter Event Calendar by using the 
 
 In this sample, using the onViewChanged call back from the calendar the visible start and end dates are displayed.
 
+![VisibleDates](https://user-images.githubusercontent.com/46158936/209639811-20e5fd71-510b-48e7-a760-3c518769ed8d.jpeg)
+
 For more details, refer to our [KB](https://www.syncfusion.com/kb/11026/how-to-get-visible-dates-details-from-the-flutter-calendar) documentation.
 
 ## Requirements to run the demo
